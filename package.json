@@ -1,0 +1,35 @@
+{
+  "name": "multi-tenant-lms-api",
+  "version": "1.0.0",
+  "main": "./dist/index.js",
+  "repository": "https://github.com/lola-emil/multi-tenant-lms-api.git",
+  "author": "Rens Salaladaga <staleexam19@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "build": "tsc -p .",
+    "start": "concurrently \"nodemon .\" \"yarn build -w\""
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "chalk": "4.1.2",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "helmet": "^8.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "uuid": "^11.0.5",
+    "winston": "^3.17.0"
+  },
+  "devDependencies": {
+    "@jest/globals": "^29.7.0",
+    "@types/bcrypt": "^5.0.2",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/jest": "^29.5.14",
+    "concurrently": "^9.1.2",
+    "jest": "^29.7.0",
+    "nodemon": "^3.1.9",
+    "ts-jest": "^29.2.5",
+    "typescript": "^5.7.3"
+  }
+}
