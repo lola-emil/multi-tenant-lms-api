@@ -3,8 +3,8 @@ import helmet from "helmet";
 import cors from "cors";
 
 import Logger from "./shared/utils/logger";
+import { PORT } from "./config/constants";
 
-const PORT = process.env["PORT"] ?? "5000";
 const app = express();
 
 app.use(cors());
