@@ -8,12 +8,12 @@ export default class CrudRepo<T> {
         this.tableName = tableName;
     }
 
-    async find(query: Partial<T>) {
-        const result = await db(this.tableName).select().where(query);
+    async find(query: Partial<T>, ...cols: Array<keyof T>) {
+        const result = await db(this.tableName).select(...cols).where(query);
         return result;
     }
 
-    async insert(data: T) {
+    async insert(data: Partial<T>) {
         const result = await db(this.tableName).insert(data);
         return result;
     }
