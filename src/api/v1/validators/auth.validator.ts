@@ -1,5 +1,4 @@
-import { error } from "winston";
-import * as UserRepo from "../../repo/user.repo";
+import * as UserRepo from "../../../repo/user.repo";
 
 
 

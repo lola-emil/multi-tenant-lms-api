@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import * as UserRepo from "../../repo/user.repo";
 import { validateUser } from "../validators/auth.validator";
 
 
