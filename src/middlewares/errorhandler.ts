@@ -27,14 +27,12 @@ export default function errorHandler(error: Error, req: Request, res: Response, 
         const message = (<ErrorResponse>error).message;
         const data = (<ErrorResponse>error).data;
         return res.status(status).json({
-            status,
             message,
             data
         });
     } else {
         Logger.error("Internal Server Error: " + error.message)
         return res.status(500).json({
-            status: 500,
             message: "Internal Server Error: " + error.message
         })
     }
