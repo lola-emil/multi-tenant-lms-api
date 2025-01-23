@@ -6,7 +6,6 @@ import authorization from "../../middlewares/authorization";
 
 const router = Router();
 
-router.use(authorization);
 
 router.use("/auth", authRouter);
 

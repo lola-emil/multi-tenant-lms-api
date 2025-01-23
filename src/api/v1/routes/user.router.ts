@@ -10,6 +10,6 @@ router.post("/", asyncHandler(UserController.insert));
 
 router.patch("/:id", asyncHandler(UserController.update));
 
-router.delete("/:id", asyncHandler(UserController.remove))
+router.delete("/:id", asyncHandler(UserController.remove));
 
 export default router;

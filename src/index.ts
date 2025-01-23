@@ -8,6 +8,7 @@ import userRepo, { User } from "./repo/user.repo";
 import errorHandler, { ErrorResponse } from "./middlewares/errorhandler";
 
 import apiRoute from "./api";
+import authorization from "./middlewares/authorization";
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use(cors());
 app.use(helmet());
 
 
+app.use(authorization);
 // include api route
 app.use("/", apiRoute);
 
