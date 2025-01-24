@@ -8,7 +8,13 @@ export async function find(req: Request, res: Response) {
 }
 
 export async function insert(req: Request, res: Response) {
+    const body = req.body;
 
+    console.log(body);
+    
+    const result = await userRepo.insert(body);
+
+    return res.status(200).json(result);
 }
 
 export async function update(req: Request, res: Response) {

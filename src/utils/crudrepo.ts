@@ -1,16 +1,50 @@
 import { db } from "../config/database";
 
+
+type PossibleQuery<T> = {
+    offset?: number,
+    limit?: number,
+    cols?: string,
+
+
+} & T;
+
 export default class CrudRepo<T> {
 
     private tableName: string;
+
+
+    private parseURLQuery(query: PossibleQuery<Partial<T>>) {
+        return query;
+    }
+
+    private omitHelperQueries(query: PossibleQuery<Partial<T>>) {
+        delete query.limit;
+        delete query.offset;
+        delete query.cols;
+
+        return query;
+    }
 
     constructor(tableName: string) {
         this.tableName = tableName;
     }
 
-    async find(query: Partial<T>, ...cols: Array<keyof T>) {
-        const result = await db(this.tableName).select(...cols).where(query);
-        return result;
+    async find(query: PossibleQuery<Partial<T>>) {
+        const sql = db(this.tableName);
+
+        if (query.cols)
+            sql.select(query.cols.split(","));
+        
+        if (query.limit)
+            sql.limit(query.limit);
+
+        if (query.offset)
+            sql.offset(query.offset);
+
+        // removed the helper queries para ma filter ang columns
+        sql.where(this.omitHelperQueries(query));
+        return await sql;
     }
 
     async insert(data: Partial<T>) {
