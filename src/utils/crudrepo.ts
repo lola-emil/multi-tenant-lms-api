@@ -1,4 +1,5 @@
 import { db } from "../config/database";
+import { ErrorResponse } from "../middlewares/errorhandler";
 
 
 type PossibleQuery<T> = {
@@ -31,20 +32,24 @@ export default class CrudRepo<T> {
     }
 
     async find(query: PossibleQuery<Partial<T>>) {
-        const sql = db(this.tableName);
+        try {
+            const sql = db(this.tableName);
 
-        if (query.cols)
-            sql.select(query.cols.split(","));
-        
-        if (query.limit)
-            sql.limit(query.limit);
+            if (query.cols)
+                sql.select(query.cols.split(","));
 
-        if (query.offset)
-            sql.offset(query.offset);
+            if (query.limit && query.limit > 0)
+                sql.limit(query.limit);
 
-        // removed the helper queries para ma filter ang columns
-        sql.where(this.omitHelperQueries(query));
-        return await sql;
+            if (query.offset)
+                sql.offset(query.offset);
+
+            // removed the helper queries para ma filter ang columns
+            sql.where(this.omitHelperQueries(query));
+            return await sql;
+        } catch (error) {
+            throw new ErrorResponse(400, (<any>error).sqlMessage);
+        }
     }
 
     async insert(data: Partial<T>) {

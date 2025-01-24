@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
-import userRepo from "../../../repo/user.repo";
+import userRepo, { User } from "../../../repo/user.repo";
+import bcrypt from "bcrypt";
 
 export async function find(req: Request, res: Response) {
     const query = req.query;
@@ -8,10 +9,11 @@ export async function find(req: Request, res: Response) {
 }
 
 export async function insert(req: Request, res: Response) {
-    const body = req.body;
+    const body = req.body as User;
 
-    console.log(body);
-    
+
+    body.password = (await bcrypt.hash(body.password, 10));
+
     const result = await userRepo.insert(body);
 
     return res.status(200).json(result);

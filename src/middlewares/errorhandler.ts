@@ -22,6 +22,8 @@ export class ErrorResponse extends Error {
 
 export default function errorHandler(error: Error, req: Request, res: Response, _next: NextFunction): unknown {
 
+    console.log(error);
+
     if (error instanceof ErrorResponse) {
         const status = (<ErrorResponse>error).status;
         const message = (<ErrorResponse>error).message;
