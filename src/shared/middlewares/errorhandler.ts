@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import Logger from "../utils/logger";
+import Logger from "../../shared/utils/logger";
 
 
 export class ErrorResponse extends Error {

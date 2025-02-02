@@ -7,8 +7,9 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "build": "tsc -p .",
-    "start": "concurrently \"nodemon .\" \"yarn build -w\""
+    "build": "tsc -p . && yarn build:rust",
+    "build:rust": "cd ./src/shared/lib/doc_parser && yarn build",
+    "start": "concurrently \"tsc -p . -w\" \"nodemon .\""
   },
   "dependencies": {
     "bcrypt": "^5.1.1",

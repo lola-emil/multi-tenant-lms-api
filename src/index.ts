@@ -2,13 +2,12 @@ import express, { ErrorRequestHandler } from "express";
 import helmet from "helmet";
 import cors from "cors";
 
-import Logger from "./utils/logger";
+import Logger from "./shared/utils/logger";
 import { PORT } from "./config/constants";
-import userRepo, { User } from "./repo/user.repo";
-import errorHandler, { ErrorResponse } from "./middlewares/errorhandler";
+import userRepo, { User } from "./shared/repo/user.repo";
+import errorHandler, { ErrorResponse } from "./shared/middlewares/errorhandler";
 
-import apiRoute from "./api";
-import authorization from "./middlewares/authorization";
+import authorization from "./shared/middlewares/authorization";
 
 const app = express();
 
@@ -20,8 +19,8 @@ app.use(helmet());
 
 
 app.use(authorization);
+
 // include api route
-app.use("/", apiRoute);
 
 
 app.use("*", (req, res) => {
