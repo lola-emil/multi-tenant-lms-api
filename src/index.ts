@@ -4,10 +4,11 @@ import cors from "cors";
 
 import Logger from "./shared/utils/logger";
 import { PORT } from "./config/constants";
-import userRepo, { User } from "./shared/repo/user.repo";
 import errorHandler, { ErrorResponse } from "./shared/middlewares/errorhandler";
 
-import authorization from "./shared/middlewares/authorization";
+// import authorization from "./shared/middlewares/authorization";
+
+import servicesRoutes from "./services";
 
 const app = express();
 
@@ -18,15 +19,14 @@ app.use(cors());
 app.use(helmet());
 
 
-app.use(authorization);
+// app.use(authorization);
 
-// include api route
-
+// include services routes
+app.use(servicesRoutes);
 
 app.use("*", (req, res) => {
     let message = `Can't ${req.method} ${req.originalUrl}`;
 
-    Logger.error(message);
     throw new ErrorResponse(404, message);
 });
 
