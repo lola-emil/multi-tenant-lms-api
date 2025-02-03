@@ -37,7 +37,7 @@ export default class CrudRepo<T> {
         return cols.split(",").filter(col => allowedCols.includes(col.trim()));
     }
 
-    async find(query: QueryModifiers<Partial<T>>) {
+    async find(query: QueryModifiers<Partial<T>>): Promise<T[]> {
         try {
             const sql = db(this.tableName);
 
@@ -68,17 +68,17 @@ export default class CrudRepo<T> {
         }
     }
 
-    async insert(data: Partial<T>) {
+    async insert(data: Partial<T>): Promise<number[]> {
         const result = await db(this.tableName).insert(data);
         return result;
     }
 
-    async update(id: number | string, data: Partial<T>) {
+    async update(id: number | string, data: Partial<T>): Promise<number> {
         const result = await db(this.tableName).update(data).where("id", id);
         return result;
     }
 
-    async remove(id: number | string) {
+    async remove(id: number | string): Promise<number> {
         const result = await db(this.tableName).delete().where("id", id);
         return result;
     }
