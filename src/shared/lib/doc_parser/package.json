@@ -10,8 +10,9 @@
     "postcargo-build": "neon dist < cargo.log",
     "postcross-build": "neon dist -m /target < cross.log",
     "debug": "npm run cargo-build --",
-    "build": "npm run cargo-build -- --release",
-    "cross": "npm run cross-build -- --release"
+    "build": "npm run cargo-build -- --release && yarn run copy:node",
+    "cross": "npm run cross-build -- --release",
+    "copy:node": "cp index.node ../../../../dist/shared/lib/doc_parser"
   },
   "author": "",
   "license": "ISC",
