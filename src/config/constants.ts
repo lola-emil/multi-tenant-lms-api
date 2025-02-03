@@ -13,3 +13,7 @@ export const HOSTNAME = process.env["HOSTNAME"];
 export const PORT = parseInt(process.env["PORT"] ?? "5000");
 
 export const JWT_SECRET_KEY = process.env["JWT_SECRET_KEY"] ?? "secret-madafak";
+
+
+export const MAILER_ADDRESS = process.env["MAILER_ADDRESS"];
+export const MALIER_PASSWORD = process.env["MAILER_PASSWORD"];
