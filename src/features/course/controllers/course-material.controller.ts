@@ -22,18 +22,19 @@ export async function upload(req: Request, res: Response) {
     } = req.files;
 
 
-    const uri = path.join(__dirname, "../../../../assets/materials/" 
-        + v4() 
+    const uri = path.join(__dirname, "../../../../assets/materials/"
+        + v4()
         + (path.extname((<UploadedFile>material).name)));
 
     // Upload ang file sa katung materials nga folder
-    await (<UploadedFile>material).mv(uri);
+    await Promise.all([
+        (<UploadedFile>material).mv(uri),
+        courseMaterialRepo.insert({
+            uri,
+            mimetype: (<UploadedFile>material).mimetype
+        })
+    ]);
 
-    await courseMaterialRepo.insert({
-        uri,
-        mimetype: (<UploadedFile>material).mimetype
-    });
-    
     return res.status(200).json({
         message: "Mag upload ka'g file"
     });

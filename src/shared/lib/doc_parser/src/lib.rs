@@ -33,6 +33,11 @@ fn xlsx_to_csv(mut cx: FunctionContext) -> JsResult<JsString> {
     Ok(cx.string(csv_string))
 }
 
+fn csv_to_json(mut cx: FunctionContext) ->JsResult<JsObject> {
+    let csv = cx.argument::<JsString>(0)?value(&mut cx);
+    
+}
+
 
 
 #[neon::main]

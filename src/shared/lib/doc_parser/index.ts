@@ -8,5 +8,5 @@ import {
 
 export {
     hello,
-    xlsx_to_csv
+    xlsx_to_csv as xlsxToCSV
 }
