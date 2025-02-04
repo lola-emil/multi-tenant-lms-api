@@ -36,7 +36,7 @@ const userSchema = Joi.object({
 
 })
 
-export async function validateSignIn(body: User) {
+export async function validateSignIn(body: User): Promise<Joi.ValidationErrorItem[] | null> {
     const result = authBodySchema.validate(body, { abortEarly: false });
 
     if (result.error)
@@ -45,16 +45,40 @@ export async function validateSignIn(body: User) {
     const matchedUser = await userRepo.find({ email: body.email });
 
     if (matchedUser.length == 0)
-        return { error: `Can't find user with email '${body.email}'` };
+        return [
+            {
+                message: "Incorrect email or password",
+                path: [
+                    "email"
+                ],
+                type: "",
+                context: {
+                    label: "email",
+                    key: "email"
+                }
+            }
+        ];
 
     if (!(await bcrypt.compare(body.password, matchedUser[0].password)))
-        return { error: `Incorrect password` };
+        return [
+            {
+                message: "Incorrect email or password",
+                path: [
+                    "password"
+                ],
+                type: "",
+                context: {
+                    label: "password",
+                    key: "password"
+                }
+            }
+        ];
 
     return null;
 }
 
 
-export async function validateUser(body: User & UserProfile) {
+export async function validateUser(body: User & UserProfile): Promise<Joi.ValidationErrorItem[] | null> {
     const result = userSchema.validate(body, { abortEarly: false });
 
     if (result.error)
@@ -63,7 +87,19 @@ export async function validateUser(body: User & UserProfile) {
     const matchedUser = await userRepo.find({ email: body.email });
 
     if (matchedUser.length > 0)
-        return { error: "email already taken" };
+        return [
+            {
+                message: "This email is already in use",
+                path: [
+                    "email"
+                ],
+                type: "",
+                context: {
+                    label: "email",
+                    key: "email"
+                }
+            }
+        ];
 
     return null;
 }

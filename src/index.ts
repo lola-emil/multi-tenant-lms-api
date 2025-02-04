@@ -8,7 +8,7 @@ import errorHandler, { ErrorResponse } from "./shared/middlewares/errorhandler";
 
 // import authorization from "./shared/middlewares/authorization";
 
-import servicesRoutes from "./services";
+import servicesRoutes from "./features";
 
 const app = express();
 

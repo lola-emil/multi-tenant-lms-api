@@ -12,7 +12,7 @@ import bcrypt from "bcrypt";
 
 export async function insert(req: Request, res: Response) {
     const body = req.body as User & UserProfile;
-    
+
     const error = await validateUser(body);
 
     if (error)
