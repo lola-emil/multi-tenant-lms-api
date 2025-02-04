@@ -7,7 +7,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "build": "tsc -p . && yarn build:rust",
+    "build": "yarn install && tsc -p . && yarn build:rust",
     "build:rust": "cd ./src/shared/lib/doc_parser && yarn build",
     "start": "concurrently \"tsc -p . -w\" \"nodemon .\""
   },
