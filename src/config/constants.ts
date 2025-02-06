@@ -17,3 +17,6 @@ export const JWT_SECRET_KEY = process.env["JWT_SECRET_KEY"] ?? "secret-madafak";
 
 export const MAILER_ADDRESS = process.env["MAILER_ADDRESS"];
 export const MALIER_PASSWORD = process.env["MAILER_PASSWORD"];
+
+export const PAYMONGO_PUBLIC_KEY = process.env["PAYMONGO_PUBLIC_KEY"];
+export const PAYMONGO_SECRET_KEY = process.env["PAYMONGO_SECRET_KEY"];
