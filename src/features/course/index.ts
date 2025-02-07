@@ -1,4 +1,5 @@
 import { Router } from "express";
+
 import courseMaterialRoute from "./routes/course-material.route";
 
 const router = Router();

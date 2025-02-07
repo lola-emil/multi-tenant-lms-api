@@ -20,3 +20,4 @@ export const MALIER_PASSWORD = process.env["MAILER_PASSWORD"];
 
 export const PAYMONGO_PUBLIC_KEY = process.env["PAYMONGO_PUBLIC_KEY"];
 export const PAYMONGO_SECRET_KEY = process.env["PAYMONGO_SECRET_KEY"];
+export const PAYMONGO_API_URL = process.env["PAYMONGO_API_URL"];
