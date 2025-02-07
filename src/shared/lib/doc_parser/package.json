@@ -18,5 +18,8 @@
   "license": "ISC",
   "devDependencies": {
     "@neon-rs/cli": "0.1.82"
+  },
+  "dependencies": {
+    "node-gyp": "^11.0.0"
   }
 }

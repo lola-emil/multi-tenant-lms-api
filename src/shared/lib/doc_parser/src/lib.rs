@@ -3,7 +3,6 @@ use shiva::{core::TransformerTrait, xlsx, csv as shiva_csv};
 use std::fs;
 use bytes::Bytes;
 
-use serde_json::Value;
 
 fn xlsx_to_csv(mut cx: FunctionContext) -> JsResult<JsString> {
     let path = cx.argument::<JsString>(0)?.value(&mut cx);
@@ -35,31 +34,35 @@ fn csv_to_json(mut cx: FunctionContext) -> JsResult<JsArray> {
 
     let mut rdr = csv::ReaderBuilder::new().has_headers(true).from_reader(csv.as_bytes());
 
-    let mut json_array = Vec::new();
+    let headers = rdr.headers().unwrap().clone();
+
+    let mut js_objects = Vec::new();
 
     for result in rdr.records() {
         match result {
             Ok(record) => {
-                let mut json_object = serde_json::Map::new();
+                let js_object = JsObject::new(&mut cx);
 
                 // Iterate through each field and header
-                for (header, field) in rdr.headers().unwrap().iter().zip(record.iter()) {
-                    json_object.insert(header.to_string(), Value::String(field.to_string()));
+                for (_i, (header, field)) in headers.iter().zip(record.iter()).enumerate() {
+                    let js_value = cx.string(field.to_string());  // Convert field to JsString
+                    let js_key = cx.string(header.to_string());  // Convert header to JsString
+                    js_object.set(&mut cx, js_key, js_value)?;   // Set key-value pair in JsObject
                 }
 
-                json_array.push(Value::Object(json_object));
+                js_objects.push(js_object);
             }
             Err(err) => {
+                // Handle CSV parsing errors
                 cx.throw_error(format!("Error reading CSV: {}", err))?;
             }
         }
     }
 
     // Convert the resulting Vec<Value> into a JsArray
-    let js_array = JsArray::new(&mut cx, json_array.len());
-    for (i, item) in json_array.into_iter().enumerate() {
-        let js_value = neon_serde::to_value(&mut cx, &item)?;
-        js_array.set(&mut cx, i as u32, js_value)?;
+    let js_array = JsArray::new(&mut cx, js_objects.len());
+    for (i, json_object) in js_objects.into_iter().enumerate() {
+        js_array.set(&mut cx, i as u32, json_object)?;
     }
 
     Ok(js_array)
